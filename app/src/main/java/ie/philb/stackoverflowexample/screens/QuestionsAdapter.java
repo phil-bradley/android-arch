@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import ie.philb.stackoverflowexample.R;
 import ie.philb.stackoverflowexample.questions.Question;
 
-public class QuestionsAdapter extends ArrayAdapter<Question> {
+public class QuestionsAdapter extends ArrayAdapter<Question> implements QuestionListItemView.Listener {
 
     public interface OnQuestionClickListener {
         void onQuestionClicked(Question question);
@@ -26,37 +26,26 @@ public class QuestionsAdapter extends ArrayAdapter<Question> {
         this.onQuestionClickListener = listener;
     }
 
-    private static class ViewHolder {
-        TextView textView;
-    }
-
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
         if (convertView == null) {
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_question_entry, parent, false);
-
-            ViewHolder viewHolder = new ViewHolder();
-            viewHolder.textView = convertView.findViewById(R.id.txtTitle);
-            convertView.setTag(viewHolder);
+            QuestionListItemView view = new QuestionListItemViewImpl(LayoutInflater.from(getContext()), parent);
+            view.registerListener(this);
+            convertView = view.getRootView();
+            convertView.setTag(view);
         }
 
         final Question question = getItem(position);
+        QuestionListItemView view = (QuestionListItemView) convertView.getTag();
+        view.bindQuestion(question);
 
-        ViewHolder viewHolder = (ViewHolder) convertView.getTag();
-        viewHolder.textView.setText(question.getTitle());
-
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clicked(question);
-            }
-        });
         return convertView;
     }
 
-    private void clicked(Question question) {
+    @Override
+    public void onQuestionClicked(Question question) {
         this.onQuestionClickListener.onQuestionClicked(question);
     }
 }
