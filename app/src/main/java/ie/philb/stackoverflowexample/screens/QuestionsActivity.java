@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class QuestionsActivity extends AppCompatActivity implements QuestionsListViewImpl.Listener {
 
     private StackOverflowApi api;
-    private QuestionsListViewImpl questionsListView;
+    private QuestionsListView questionsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

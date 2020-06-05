@@ -1,5 +1,7 @@
 package ie.philb.stackoverflowexample.screens;
 
+import android.view.View;
+
 import java.util.List;
 
 import ie.philb.stackoverflowexample.questions.Question;
@@ -15,4 +17,6 @@ public interface QuestionsListView {
     void unRegisterListener(Listener l);
 
     void bindQuestions(List<Question> questions);
+
+    View getRootView();
 }

@@ -49,6 +49,7 @@ public class QuestionsListViewImpl implements QuestionsAdapter.OnQuestionClickLi
         return getRootView().findViewById(id);
     }
 
+    @Override
     public View getRootView() {
         return this.rootView;
     }
