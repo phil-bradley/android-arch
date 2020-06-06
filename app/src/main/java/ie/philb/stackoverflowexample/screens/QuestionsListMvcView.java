@@ -1,22 +1,15 @@
 package ie.philb.stackoverflowexample.screens;
 
-import android.view.View;
-
 import java.util.List;
 
+import ie.philb.stackoverflowexample.common.ObservableMvcView;
 import ie.philb.stackoverflowexample.questions.Question;
 
-public interface QuestionsListView {
+public interface QuestionsListMvcView extends ObservableMvcView<QuestionsListMvcView.Listener> {
 
     interface Listener {
         void onQuestionClicked(Question question);
     }
 
-    void registerListener(Listener l);
-
-    void unRegisterListener(Listener l);
-
     void bindQuestions(List<Question> questions);
-
-    View getRootView();
 }

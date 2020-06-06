@@ -21,17 +21,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class QuestionsActivity extends AppCompatActivity implements QuestionsListViewImpl.Listener {
+public class QuestionsActivity extends AppCompatActivity implements QuestionsListMvcViewImpl.Listener {
 
     private StackOverflowApi api;
-    private QuestionsListView questionsListView;
+    private QuestionsListMvcView questionsListMvcView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.questionsListView = new QuestionsListViewImpl(LayoutInflater.from(this), null);
-        this.questionsListView.registerListener(this);
+        this.questionsListMvcView = new QuestionsListMvcViewImpl(LayoutInflater.from(this), null);
+        this.questionsListMvcView.registerListener(this);
 
         this.api = new Retrofit.
                 Builder().
@@ -40,7 +40,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionsLis
                 build().
                 create(StackOverflowApi.class);
 
-        setContentView(this.questionsListView.getRootView());
+        setContentView(this.questionsListMvcView.getRootView());
     }
 
     @Override
@@ -76,7 +76,7 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionsLis
             questions.add(new Question(qs.getId(), qs.getTitle()));
         }
 
-        questionsListView.bindQuestions(questions);
+        questionsListMvcView.bindQuestions(questions);
     }
 
     private void handleError(String msg) {
