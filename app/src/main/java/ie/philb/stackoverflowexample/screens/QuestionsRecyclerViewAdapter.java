@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ie.philb.stackoverflowexample.common.MvcViewFactory;
 import ie.philb.stackoverflowexample.questions.Question;
 
 public class QuestionsRecyclerViewAdapter extends RecyclerView.Adapter<QuestionsRecyclerViewAdapter.QuestionViewHolder> implements QuestionListItemMvcView.Listener {
@@ -30,12 +31,12 @@ public class QuestionsRecyclerViewAdapter extends RecyclerView.Adapter<Questions
 
     private final List<Question> questions = new ArrayList<>();
 
-    private final LayoutInflater inflater;
     private final OnQuestionClickListener onQuestionClickListener;
+    private MvcViewFactory mvcViewFactory;
 
-    public QuestionsRecyclerViewAdapter(LayoutInflater inflater, OnQuestionClickListener listener) {
-        this.inflater = inflater;
+    public QuestionsRecyclerViewAdapter(OnQuestionClickListener listener, MvcViewFactory mvcViewFactory) {
         this.onQuestionClickListener = listener;
+        this.mvcViewFactory = mvcViewFactory;
     }
 
     public void bindQuestions(List<Question> questions) {
@@ -47,7 +48,7 @@ public class QuestionsRecyclerViewAdapter extends RecyclerView.Adapter<Questions
     @NonNull
     @Override
     public QuestionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        QuestionListItemMvcView view = new QuestionListItemMvcViewImpl(inflater, parent);
+        QuestionListItemMvcView view = mvcViewFactory.getQuestionListItemMvcView(parent);
         view.registerListener(this);
         return new QuestionViewHolder(view);
     }

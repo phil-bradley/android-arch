@@ -12,6 +12,7 @@ import java.util.List;
 import ie.philb.stackoverflowexample.R;
 import ie.philb.stackoverflowexample.common.BaseMvcView;
 import ie.philb.stackoverflowexample.common.BaseObservableMvcView;
+import ie.philb.stackoverflowexample.common.MvcViewFactory;
 import ie.philb.stackoverflowexample.common.ObservableMvcView;
 import ie.philb.stackoverflowexample.questions.Question;
 
@@ -23,12 +24,12 @@ public class QuestionsListMvcViewImpl
     private RecyclerView lstQuestions;
     private QuestionsRecyclerViewAdapter questionsAdapter;
 
-    public QuestionsListMvcViewImpl(LayoutInflater inflater, ViewGroup parent) {
+    public QuestionsListMvcViewImpl(LayoutInflater inflater, ViewGroup parent, MvcViewFactory mvcViewFactory) {
         setRootView(inflater.inflate(R.layout.layout_questions, parent, false));
 
         this.lstQuestions = findViewById(R.id.lstQuestions);
         this.lstQuestions.setLayoutManager(new LinearLayoutManager(getContext()));
-        this.questionsAdapter = new QuestionsRecyclerViewAdapter(inflater, this);
+        this.questionsAdapter = new QuestionsRecyclerViewAdapter(this, mvcViewFactory );
         this.lstQuestions.setAdapter(this.questionsAdapter);
     }
 
