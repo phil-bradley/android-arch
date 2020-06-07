@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import ie.philb.stackoverflowexample.common.BaseActivity;
 import ie.philb.stackoverflowexample.common.Constants;
 import ie.philb.stackoverflowexample.network.QuestionSchema;
 import ie.philb.stackoverflowexample.network.QuestionsListResponseSchema;
@@ -21,7 +22,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class QuestionsActivity extends AppCompatActivity implements QuestionsListMvcViewImpl.Listener {
+public class QuestionsActivity extends BaseActivity implements QuestionsListMvcViewImpl.Listener {
 
     private StackOverflowApi api;
     private QuestionsListMvcView questionsListMvcView;
@@ -30,16 +31,10 @@ public class QuestionsActivity extends AppCompatActivity implements QuestionsLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.questionsListMvcView = new QuestionsListMvcViewImpl(LayoutInflater.from(this), null);
+        this.questionsListMvcView = getCompositionRoot().getMvcViewFactory().getQuestionsListMvcView(null);
         this.questionsListMvcView.registerListener(this);
 
-        this.api = new Retrofit.
-                Builder().
-                baseUrl(Constants.BASE_URL).
-                addConverterFactory(GsonConverterFactory.create()).
-                build().
-                create(StackOverflowApi.class);
-
+        this.api = getCompositionRoot().getStackOverflowApi();
         setContentView(this.questionsListMvcView.getRootView());
     }
 
